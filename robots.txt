@@ -1,0 +1,6 @@
+# CLASS DECK GENERATOR — HMG Concepts internal builder tool.
+# Not a public product page: keep the builder and the master template
+# out of search engines. Client decks generated FROM this tool ship
+# their own public robots.txt + sitemap.xml.
+User-agent: *
+Disallow: /
