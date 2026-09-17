@@ -6,6 +6,8 @@
 
 ---
 
+> 🛡 **V12.2 (17 Sep 2026):** full-system audit fixed 4 security flaws + 8 bugs across the builder, template and emitted client ZIPs — see [docs/AUDIT-REPORT-V12.2.md](docs/AUDIT-REPORT-V12.2.md). Client ZIPs generated before V12.2 must be re-generated.
+
 ## 1. How this deployment is structured (V12.1 fix)
 
 | Path | What it is |

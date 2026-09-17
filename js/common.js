@@ -105,8 +105,22 @@ function toggleFullscreen() {
 
 /* ---------- service-worker registration (PWA install/offline) ---------- */
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+  /* V12.2 BUILDER FIX — this copy of common.js serves the GENERATOR site.
+     1) The builder root intentionally ships NO sw.js: a build tool must
+        always fetch fresh template files (cache = stale client decks).
+     2) CONFIRMED LIVE BUG: this domain previously served the deck, so
+        returning visitors still had the deck's service worker, which kept
+        answering navigations with the OLD deck shell — the builder never
+        appeared. Unregister every SW on this scope and purge its caches. */
+  window.addEventListener("load", async () => {
+    try {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) { try { await r.unregister(); } catch (e) {} }
+      if (window.caches && caches.keys) {
+        for (const k of await caches.keys()) { try { await caches.delete(k); } catch (e) {} }
+      }
+      if (regs.length) console.info("[Builder] removed", regs.length, "stale service worker(s)");
+    } catch (e) {}
   });
 }
 
